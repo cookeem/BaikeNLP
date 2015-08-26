@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="cpdetector">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/antlr-2.7.4.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/chardet-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/cpdetector_1.0.10.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/jargs-1.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/jsoup-1.6.3.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

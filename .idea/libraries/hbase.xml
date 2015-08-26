@@ -1,0 +1,17 @@
+<component name="libraryTable">
+  <library name="hbase">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-annotations-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-client-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-common-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-hadoop2-compat-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-protocol-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-server-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/hbase-thrift-1.0.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/htrace-core-3.1.0-incubating.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../../hadoop/hbase-1.0.0/lib/protobuf-java-2.5.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" build-on-make="true" name="BaikeNLP:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/BaikeNLP_jar</output-path>
+    <root id="archive" name="BaikeNLP.jar">
+      <element id="module-output" name="BaikeNLP" />
+    </root>
+  </artifact>
+</component>

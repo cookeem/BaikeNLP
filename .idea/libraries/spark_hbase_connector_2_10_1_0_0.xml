@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="spark-hbase-connector_2.10-1.0.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../../hadoop/publiclib/spark-hbase-connector_2.10-1.0.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
