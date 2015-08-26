@@ -194,15 +194,11 @@ object TmpObj {
     })
   }
 
-  def w2v(): Unit = {
+  def wtov(): Unit = {
     val input = sc.textFile("text8").map(line => line.split(" ").toSeq)
-
     val word2vec = new Word2Vec()
-
     val model = word2vec.fit(input)
-
     val synonyms = model.findSynonyms("china", 40)
-
     for((synonym, cosineSimilarity) <- synonyms) {
       println(s"$synonym $cosineSimilarity")
     }
