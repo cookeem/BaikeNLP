@@ -48,6 +48,9 @@ object StrOps {
     var word1 = ""
     var word2 = ""
     val libPath = "/Volumes/Share/hadoop/publiclib/library"
+    //如果需要默认加载用户自定义词库，需要在spark的conf目录上存放library.properties
+    //使用this.getClass.getResource("/")获取当前运行目录
+    //java.net.URL = file:/Volumes/Share/hadoop/spark-1.4.1/conf/
     val libFile = libPath + "/default.dic"
     try {
       word1 = scala.io.Source.fromFile(libFile).mkString.split("\n").last.split("\t")(0)
@@ -117,12 +120,9 @@ object StrOps {
 
   //Ansj中文分词，进行词性识别以及过滤停用词
   def splitChinese(content: String) : ArrayBuffer[Map[String,Map[String,String]]] = {
-    val t1 = System.currentTimeMillis
     var wa = ArrayBuffer[Map[String,Map[String,String]]]()
     try {
       var ws = ToAnalysis.parse(content)
-      val ts = Math.round((System.currentTimeMillis - t1) * 100) / (100 * 1000.00)
-      println("###Finish split content in " + ts + " seconds")
       new NatureRecognition(ws).recognition()
       val wi = ws.iterator
       while (wi.hasNext()) {

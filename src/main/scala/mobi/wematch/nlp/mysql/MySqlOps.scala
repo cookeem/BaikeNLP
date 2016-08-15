@@ -26,7 +26,7 @@ object MySqlOps {
     }
     conn
   }
-  val mysqlConn = initMysql("localhost",3306,"termdb","root","man8080")
+  val mysqlConn = initMysql("localhost",3306,"termdb","root","asdasd")
 
   //执行语句，返回记录集
   def querySql(sql : String): ArrayBuffer[Map[String, String]] = {

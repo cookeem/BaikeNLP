@@ -176,7 +176,7 @@ object HttpOps {
     if (urlInfo("html") != "") {
       try {
         val charset = urlInfo("charset")
-        val html = f2J(urlInfo("html"))
+        val html = f2j(urlInfo("html"))
         var regEx_script = "(?i)<[\\s]*?script[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?script[\\s]*?>"
         val regEx_style = "(?i)<[\\s]*?style[^>]*?>[\\s\\S]*?<[\\s]*?\\/[\\s]*?style[\\s]*?>"
         var doc = Jsoup.parse(html.replaceAll(regEx_script, "").replaceAll(regEx_style, ""))
@@ -256,7 +256,7 @@ object HttpOps {
     if (urlInfo("html") != "") {
       try {
         val charset = urlInfo("charset")
-        val html = f2J(urlInfo("html"))
+        val html = f2j(urlInfo("html"))
         val terms = html.split("\n").map(s => s.trim())
         ret = Map(
           "charset" -> charset,

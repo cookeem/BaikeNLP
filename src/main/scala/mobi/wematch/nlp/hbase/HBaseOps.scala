@@ -288,7 +288,7 @@ object HBaseOps {
   }
 
   //解释Baike的Url并进行分词入库
-  def parseBaikeTermToHbase(url: String) : Unit = {
+  def parseBaikeTermToHbase(url: String, fromUrl: String = "", linkRowkey: String = "") : Unit = {
     try {
       val urlInfo = mapBaikeInfo(url)
       var redirectUrl = urlInfo("redirectUrl").asInstanceOf[String]
@@ -323,8 +323,7 @@ object HBaseOps {
               "url" -> redirectUrl
             )
             checkRowkey("urls_baiketagid", tagidurlRowkey, cfName, valMap3, true)
-          }
-          }
+          }}
           tagids = tagidArr.mkString(" ")
         }
         println("#####" + redirectUrl + " insert " + i + " tags")
@@ -345,9 +344,20 @@ object HBaseOps {
             "tourl" -> href
           )
           checkRowkey("urls_baikelink", linkidRowkey, cfName, valMap2, true)
-        }
-        }
+        }}
         println("#####" + redirectUrl + " insert " + i + " hrefs")
+        //进行urls_baikelink记录删除和urls_baikelinkdone记录增加操作
+        if (fromUrl != "") {
+          deleteRowkey("urls_baikelink",linkRowkey)
+          var valMap2 = Map[String, Any]()
+          valMap2 = Map(
+            "fromurl" -> fromUrl,
+            "tourl" -> url
+          )
+          val linkFromUrlRowkey = md5(fromUrl)
+          val linktoUrlRowkey = md5(redirectUrl)
+          checkRowkey("urls_baikelinkdone", linkFromUrlRowkey+"-"+linktoUrlRowkey, cfName, valMap2, true)
+        }
 
         //分词并进行入库
         val termids: String = parseSplitTermToMysql(content)

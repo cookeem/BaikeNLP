@@ -18,7 +18,7 @@ object SparkOps {
   val sc = initSpark()
 
   def main (args: Array[String]) {
-    val prompt = "###Usage: initall|initbaike|initsogou|getsogouurl|getsogouterm|getbaiketerm|chisqselector|naivebays \n###(multi params support)"
+    val prompt = "###Usage: initall|initbaike|initsogou|getsogouurl|getsogouterm|getbaiketerm|naivebays \n###(multi params support)"
     if (args.length == 0) {
       println("### No params error:\n"+prompt)
     } else {
@@ -33,6 +33,7 @@ object SparkOps {
             dropTable("urls_baiketodo")
             dropTable("urls_baikedone")
             dropTable("urls_baikelink")
+            dropTable("urls_baikelinkdone")
             dropTable("urls_baiketagid")
             dropTable("urls_dictlist")
             dropTable("urls_dictterm")
@@ -40,6 +41,7 @@ object SparkOps {
             createTable("urls_baiketodo", cfname) //等待解析的百科url：【md5(url)】【url】
             createTable("urls_baikedone", cfname) //已经解析的url：【md5(url)】【url redirectUrl charset html content term keyword tags tagids termids】
             createTable("urls_baikelink", cfname) //百科url内部链接表：【md5(fromurl)-md5(tourl)】【fromurl tourl】
+            createTable("urls_baikelinkdone", cfname) //百科url内部已完成链接表：【md5(fromurl)-md5(tourl)】【fromurl tourl】
             createTable("urls_baiketagid", cfname) //百科url与标签对应表：【md5(tagid)-md5(url)】【url tagid】
             createTable("urls_dictlist", cfname) //等待解析的sogou词库列表url：【md5(url)】【url】
             createTable("urls_dictterm", cfname) //等待下载的sogou词库url：【md5(url)】【url】
@@ -66,6 +68,8 @@ object SparkOps {
           println("###Begin to init all baike tables that needed")
           truncateTable("urls_baiketodo")
           truncateTable("urls_baikedone")
+          truncateTable("urls_baikelink")
+          truncateTable("urls_baikelinkdone")
           deleteRowkey("urls_incr", "urls_baiketodo")
           deleteRowkey("urls_incr", "urls_baikedone")
           execSql("truncate table proc_tags")
@@ -125,18 +129,23 @@ object SparkOps {
         if (args.contains("getbaiketerm")) {
           checked = 1
           val cfName = "info"
-          val hbaseRDD = sc.hbaseTable[(String, String)]("urls_baiketodo").select("url").inColumnFamily(cfName).map(t => (t._2))
-          //val hbaseRDD = sc.parallelize(1 to 2).map(i => "http://baike.baidu.com/view/"+i+".htm")
-          hbaseRDD.foreachPartition(epr => {
+          val hbaseRDD2 = sc.hbaseTable[(String, String)]("urls_baiketodo").select("url").inColumnFamily(cfName).map(t => (t._2))
+          hbaseRDD2.foreachPartition(epr => {
             loadAnsjLib()
             epr.foreach(url => {
               parseBaikeTermToHbase(url)
             })
           })
-        }
-        if (args.contains("chisqselector")) {
-          checked = 1
-          initChisqselector()
+          val hbaseRDD = sc.hbaseTable[(String, String, String)]("urls_baikelink").select("fromurl","tourl").inColumnFamily(cfName)
+          hbaseRDD.foreachPartition(epr => {
+            loadAnsjLib()
+            epr.foreach(t => {
+              val rowkey = t._1
+              val fromUrl = t._2
+              val toUrl = t._3
+              parseBaikeTermToHbase(toUrl,fromUrl,rowkey)
+            })
+          })
         }
         if (args.contains("naivebays")) {
           checked = 1
